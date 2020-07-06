@@ -1,6 +1,7 @@
 # Image that will build the app
 FROM maven:latest as builder
 
+RUN mkdir /tmp/app
 COPY pom.xml /tmp/app
 COPY src /tmp/app/src/
 
@@ -11,7 +12,8 @@ RUN mvn clean package
 # Image that will run the app
 FROM openjdk:latest
 
-COPY --from=builder /tmp/target/app.jar /usr/app.jar
+ARG JAR_FILE=target/*.jar
+COPY --from=builder /tmp/${JAR_FILE} /usr/app.jar
 
 EXPOSE 8080
 
