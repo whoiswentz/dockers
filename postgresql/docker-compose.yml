@@ -1,21 +1,23 @@
 version: "3.7"
 
 services:
-    postgres-1:
-      image: postgres
-      ports:
-          - 5432:5432
-      environment:
-        POSTGRES_USER: postgres_admin
-        POSTGRES_PASSWORD: "eU&&mA.Ve1Q.Sv5JD" # Calmdown, that's not my password
-      volumes:
-          - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
-    pdadmin:
-      image: dpage/pgadmin4
-      environment:
-        PGADMIN_DEFAULT_EMAIL: "email@email.com"
-        PGADMIN_DEFAULT_PASSWORD: "mysecurepass"
-      ports:
-        - "16543:80"
-      depends_on:
-        - postgres-1
+  postgres-1:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "eU&&mAVe1Q.Sv5JD" # Calmdown, that's not my password
+    volumes:
+      - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
+  pdadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "16543:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "email@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "mysecurepass"
+    volumes:
+      - $HOME/docker/volumes/pgadmin4:/var/lib/pgadmin
+    depends_on:
+      - postgres-1
