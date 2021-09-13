@@ -1,13 +1,13 @@
 version: "3.7"
 
 services:
-  postgres-1:
+  postgres-development:
     image: postgres
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "eU&&mAVe1Q.Sv5JD" # Calmdown, that's not my password
+      POSTGRES_PASSWORD: "postgres" # Calmdown, that's not my password
     volumes:
       - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
   pdadmin:
