@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   postgres-development:
-    image: postgres
+    build: .
     ports:
       - 5432:5432
     environment:
@@ -20,4 +20,4 @@ services:
     volumes:
       - $HOME/docker/volumes/pgadmin4:/var/lib/pgadmin
     depends_on:
-      - postgres-1
+      - postgres-development
