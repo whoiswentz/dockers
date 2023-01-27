@@ -16,3 +16,6 @@ CREATE EXTENSION address_standardizer;
 CREATE EXTENSION address_standardizer_data_us;
 -- Enable US Tiger Geocoder
 CREATE EXTENSION postgis_tiger_geocoder;
+
+
+CREATE EXTENSION IF NOT EXISTS timescaledb;
