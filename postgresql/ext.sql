@@ -18,6 +18,5 @@ CREATE EXTENSION address_standardizer_data_us;
 CREATE EXTENSION postgis_tiger_geocoder;
 
 
-CREATE EXTENSION IF NOT EXISTS timescaledb;
-
+CREATE EXTENSION timescaledb;
 CREATE EXTENSION pg_stat_statements;

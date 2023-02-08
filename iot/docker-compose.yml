@@ -1,0 +1,106 @@
+version: "3.8"
+
+networks:
+  iot:
+    driver: bridge
+
+services:
+  postgres:
+    build: ./postgres/.
+    networks:
+      - iot
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - $PWD/postgres/data/:/var/lib/postgresql/data
+      - $PWD/postgres/postgres.conf:/etc/postgresql/postgresql.conf
+      # - $PWD/postgres/bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+
+  # postgres-exporter:
+  #   image: prometheuscommunity/postgres-exporter
+  #   networks:
+  #     - iot
+  #   ports:
+  #     - 9187:9187
+  #   environment:
+  #     DATA_SOURCE_NAME: "postgresql://postgres:postgrespassword@postgres:5433"
+  #   links:
+  #     - postgres
+  #     - prometheus
+  #   depends_on:
+  #     - postgres
+
+  # prometheus:
+  #   image: prom/prometheus
+  #   command: 
+  #     - "--config.file=/etc/prometheus/prometheus.yml"
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+  #     - '--web.console.templates=/usr/share/prometheus/consoles'
+  #   networks:
+  #     - iot
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - $PWD/prometheus/:/etc/prometheus/
+  #     - $PWD/prometheus/data/:/prometheus
+
+  # alertmanager:
+  #   image: prom/alertmanager
+  #   networks:
+  #     - iot
+  #   ports:
+  #     - 9093:9093
+  #   volumes:
+  #     - $PWD/alertmanager:/etc/alertmanager
+  #   depends_on:
+  #     - prometheus
+
+  # rabbitmq: 
+  #   image: rabbitmq:management
+  #   networks:
+  #     - iot
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
+  #     - 15692:15692
+  #   volumes:
+  #     - $PWD/rabbitmq/data/:/var/lib/rabbitmq/
+  #     - $PWD/rabbitmq/log/:/var/log/rabbitmq/
+  #     - $PWD/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+  #   depends_on:
+  #     - prometheus
+
+  # grafana:
+  #   image: grafana/grafana
+  #   networks:
+  #     - iot
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - $PWD/grafana/:/var/lib/grafana
+  #     - $PWD/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+  #     - $PWD/grafana/datasources.yml:/etc/grafana/provisioning/datasources/prometheus.yaml
+  #     - $PWD/grafana/dashboards:/dashboards
+  #   depends_on:
+  #     - prometheus
+
+  # node-exporter:
+  #   image: prom/node-exporter
+  #   command:
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.rootfs=/rootfs'
+  #     - '--path.sysfs=/host/sys'
+  #     - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+  #   networks:
+  #     - iot
+  #   expose:
+  #     - 9100
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro

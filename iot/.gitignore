@@ -1,0 +1,13 @@
+/prometheus/data
+
+/rabbitmq/data
+/rabbitmq/log
+
+/grafana/alerting
+/grafana/csv
+/grafana/file-collections
+/grafana/plugins
+/grafana/png
+/grafana/grafana.db
+
+/postgres/data

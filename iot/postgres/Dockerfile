@@ -1,4 +1,4 @@
-FROM postgres:14
+FROM postgres:15
 
 RUN apt update \
     && apt install gnupg apt-transport-https lsb-release wget -y
@@ -7,4 +7,4 @@ RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_releas
 RUN wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
 RUN apt update \
-    && apt install postgis timescaledb-2-postgresql-14 -y
+    && apt install postgis timescaledb-2-postgresql-15 -y
